@@ -29,7 +29,8 @@ PrimeNumber.prototype = {
     if (this._isPrimeNumberEven(primeNumber)) {
       return false;
     } else {
-      for (knownPrimeNumber in self._knownPrimes) {
+      for (var index in this._knownPrimes) {
+        var knownPrimeNumber= this._knownPrimes[index];
         if (knownPrimeNumber == primeNumber) {
           return true;
         } 
@@ -61,7 +62,7 @@ PrimeNumber.prototype = {
   },
 
   _isPrimeNumberDivisible: function(primeNumber, divisor) {
-    return divisor != 1 && primeNumber % divisor == 0;
+    return (divisor != 1 && primeNumber % divisor == 0);
   },
 
   _isPrimeNumberEven: function(primeNumber) {
@@ -87,8 +88,8 @@ PrimeNumber.prototype = {
   },
 
   _setStartingNumber: function() {
-    if (this._knownPrimes.length == 0) {
-      this._startingNumber = 1;
+    if (this._knownPrimes.length == 2) {
+      this._startingNumber = 3;
     } else {
       var sortedKnownPrimes = this._knownPrimes.sort(function(a,b){return a-b});
       this._startingNumber = sortedKnownPrimes[sortedKnownPrimes.length-1];

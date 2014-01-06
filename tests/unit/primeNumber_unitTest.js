@@ -26,9 +26,8 @@ describe("PrimeNumber", function() {
   });
 
   it("Is the starting number correct", function() {
-    primeNumberObject._knownPrimes = [];
     primeNumberObject._setStartingNumber();
-    expect(primeNumberObject._startingNumber).toEqual(1);
+    expect(primeNumberObject._startingNumber).toEqual(3);
 
     primeNumberObject._knownPrimes = [7,11,29,3,2,1,13];
     primeNumberObject._setStartingNumber(31);
@@ -36,22 +35,32 @@ describe("PrimeNumber", function() {
   });
 
   it("The 'isPrimeNumber' method to calculate if a number is prime", function() {
-    expect(primeNumberObject.isPrimeNumber(3)).toBe(true);
-    expect(primeNumberObject._knownPrimes).toEqual([1, 2, 3]);
+    expect(primeNumberObject.isPrimeNumber(2)).toBe(true);
+    expect(primeNumberObject._knownPrimes).toEqual([1, 2]);
 
     expect(primeNumberObject.isPrimeNumber(5)).toBe(true);
-    expect(primeNumberObject._knownPrimes).toEqual([1, 2, 3, 5]);
+    expect(primeNumberObject._knownPrimes).toEqual([1, 2, 5]);
   });
 
   it("The 'isPrimeNumber' method to calculate if a number is prime", function() {
     expect(primeNumberObject.isPrimeNumber(1)).toEqual(true);
+    expect(primeNumberObject._knownPrimes).toEqual([1, 2]);
     expect(primeNumberObject.isPrimeNumber(2)).toEqual(true);
+    expect(primeNumberObject._knownPrimes).toEqual([1, 2]);
     expect(primeNumberObject.isPrimeNumber(3)).toEqual(true);
+    expect(primeNumberObject._knownPrimes).toEqual([1, 2, 3]);
     expect(primeNumberObject.isPrimeNumber(4)).toEqual(false);
+    expect(primeNumberObject._knownPrimes).toEqual([1, 2, 3]);
     expect(primeNumberObject.isPrimeNumber(5)).toEqual(true);
+    expect(primeNumberObject._knownPrimes).toEqual([1, 2, 3, 5]);
+    expect(primeNumberObject.isPrimeNumber(15)).toEqual(false);
+    expect(primeNumberObject._knownPrimes).toEqual([1, 2, 3, 5]);
     expect(primeNumberObject.isPrimeNumber(25)).toEqual(false);
+    expect(primeNumberObject._knownPrimes).toEqual([1, 2, 3, 5]);
     expect(primeNumberObject.isPrimeNumber(125)).toEqual(false);
+    expect(primeNumberObject._knownPrimes).toEqual([1, 2, 3, 5]);
     expect(primeNumberObject.isPrimeNumber(1.1)).toEqual(false);
+    expect(primeNumberObject._knownPrimes).toEqual([1, 2, 3, 5]);
   });
 
 });
