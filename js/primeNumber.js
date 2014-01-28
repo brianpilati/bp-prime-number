@@ -26,38 +26,59 @@ PrimeNumber.prototype = {
       return true;
     }
 
-    if (this._isPrimeNumberEven(primeNumber)) {
+    if (this._isPrimeNumberNotValid(primeNumber)) {
       return false;
     } else {
+      var squareRoot = this._getSquareRoot(primeNumber);
+
       for (var index in this._knownPrimes) {
-        var knownPrimeNumber= this._knownPrimes[index];
-        if (knownPrimeNumber == primeNumber) {
+        var knownPrimeNumber = this._knownPrimes[index];
+        if (this._isThePrimeNumberKnown(knownPrimeNumber, primeNumber)) {
           return true;
         } 
         if (this._isPrimeNumberDivisible(primeNumber, knownPrimeNumber)) {
           return false;
         }
+        if (this._stopTestingKnownPrimes(knownPrimeNumber, squareRoot, primeNumber)) {
+          break;
+        }
       }
 
       this._setStartingNumber();
-      var squareRoot = this._getSquareRoot(primeNumber);
-      while (this._startingNumber <= squareRoot) {
+      while (this._continueTestingPrimeNumber(squareRoot)) {
         if (this._isPrimeNumberDivisible(primeNumber, this._startingNumber)) {
           return false;
         }
-        this._incStartingNumber(isPrimeNumberCheck);
+        this._incStartingNumber();
       }
     }
 
-    this._knownPrimes.push(primeNumber);
+    this._addKnownPrimeNumber(primeNumber);
     return isPrimeNumber;
   },
 
-  _isTheNewNumberPrime: function(isPrimeNumberCheck) {
-    if (isPrimeNumberCheck) {
-      if (this._calculatePrimeNumber(this._startingNumber, false)) {
-        this._knownPrimes.push(this._startingNumber);// unless i == inputNumber
-      }
+  _continueTestingPrimeNumber: function(squareRoot) {
+    return this._startingNumber <= squareRoot;
+  },
+
+  _stopTestingKnownPrimes: function(knownPrimeNumber, squareRoot, primeNumber) {
+    return knownPrimeNumber > squareRoot || knownPrimeNumber > primeNumber;
+  },
+
+  _isThePrimeNumberKnown: function(knownPrimeNumber, primeNumber) {
+    return knownPrimeNumber == primeNumber;
+  },
+
+  _isTheNewNumberPrime: function() {
+    if (this._useRecursionOnNewPrimeNumber()) {
+      this._calculatePrimeNumber(this._startingNumber, false);
+    }
+  },
+
+  _addKnownPrimeNumber: function(primeNumber) {
+    this._knownPrimes.push(primeNumber);
+    if (this._sortKnownPrimes()) {
+      this._knownPrimes = this._knownPrimes.sort(function(a,b){return a-b});
     }
   },
 
@@ -65,7 +86,7 @@ PrimeNumber.prototype = {
     return (divisor != 1 && primeNumber % divisor == 0);
   },
 
-  _isPrimeNumberEven: function(primeNumber) {
+  _isPrimeNumberNotValid: function(primeNumber) {
     return ! this._isNumber(primeNumber) || primeNumber % 2 == 0;
   },
 
@@ -73,10 +94,9 @@ PrimeNumber.prototype = {
     return primeNumber == 1 || primeNumber == 2;
   },
 
-  _incStartingNumber: function(isPrimeNumberCheck) {
-    //the startingNumber will always be odd after 2
-    this._isTheNewNumberPrime(isPrimeNumberCheck);
-    this._startingNumber += (this._startingNumber > 2 ? 2 : 1);
+  _incStartingNumber: function() {
+    this._isTheNewNumberPrime();
+    this._startingNumber += 2;
   },
 
   _isNumber: function(n) {
@@ -91,13 +111,27 @@ PrimeNumber.prototype = {
     if (this._knownPrimes.length == 2) {
       this._startingNumber = 3;
     } else {
-      var sortedKnownPrimes = this._knownPrimes.sort(function(a,b){return a-b});
-      this._startingNumber = sortedKnownPrimes[sortedKnownPrimes.length-1];
+      this._startingNumber = this._knownPrimes[this._knownPrimes.length-1];
     }
   },
 
   _getSquareRoot: function(number) {
     return Math.floor(Math.sqrt(number));
-  }
+  },
 
+  _getLastKnownPrime: function() {
+    return this._knownPrimes[this._knownPrimes.length - 1];
+  },
+
+  _getNMinus2KnownPrime: function() {
+    return this._knownPrimes[this._knownPrimes.length - 2];
+  },
+
+  _sortKnownPrimes: function() {
+    return this._getNMinus2KnownPrime() > this._getLastKnownPrime();
+  },
+
+  _useRecursionOnNewPrimeNumber: function() {
+    return this._startingNumber != this._getLastKnownPrime();
+  }
 }

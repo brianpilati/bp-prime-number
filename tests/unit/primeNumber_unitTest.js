@@ -29,8 +29,14 @@ describe("PrimeNumber", function() {
     primeNumberObject._setStartingNumber();
     expect(primeNumberObject._startingNumber).toEqual(3);
 
-    primeNumberObject._knownPrimes = [7,11,29,3,2,1,13];
-    primeNumberObject._setStartingNumber(31);
+    primeNumberObject._knownPrimes = [7];
+    primeNumberObject._addKnownPrimeNumber(11);
+    primeNumberObject._addKnownPrimeNumber(29);
+    primeNumberObject._addKnownPrimeNumber(3);
+    primeNumberObject._addKnownPrimeNumber(2);
+    primeNumberObject._addKnownPrimeNumber(1);
+    primeNumberObject._addKnownPrimeNumber(13);
+    primeNumberObject._setStartingNumber();
     expect(primeNumberObject._startingNumber).toEqual(29);
   });
 
@@ -45,22 +51,81 @@ describe("PrimeNumber", function() {
   it("The 'isPrimeNumber' method to calculate if a number is prime", function() {
     expect(primeNumberObject.isPrimeNumber(1)).toEqual(true);
     expect(primeNumberObject._knownPrimes).toEqual([1, 2]);
+  });
+
+  it("The 'isPrimeNumber' method to calculate if a number is prime", function() {
     expect(primeNumberObject.isPrimeNumber(2)).toEqual(true);
     expect(primeNumberObject._knownPrimes).toEqual([1, 2]);
+  });
+
+  it("The 'isPrimeNumber' method to calculate if a number is prime", function() {
     expect(primeNumberObject.isPrimeNumber(3)).toEqual(true);
     expect(primeNumberObject._knownPrimes).toEqual([1, 2, 3]);
+  });
+
+  it("The 'isPrimeNumber' method to calculate if a number is prime", function() {
     expect(primeNumberObject.isPrimeNumber(4)).toEqual(false);
-    expect(primeNumberObject._knownPrimes).toEqual([1, 2, 3]);
+    expect(primeNumberObject._knownPrimes).toEqual([1, 2]);
+  });
+
+  it("The 'isPrimeNumber' method to calculate if a number is prime", function() {
     expect(primeNumberObject.isPrimeNumber(5)).toEqual(true);
+    expect(primeNumberObject._knownPrimes).toEqual([1, 2, 5]);
+
+    expect(primeNumberObject.isPrimeNumber(3)).toEqual(true);
     expect(primeNumberObject._knownPrimes).toEqual([1, 2, 3, 5]);
+  });
+
+  it("The 'isPrimeNumber' method to calculate if a number is prime", function() {
     expect(primeNumberObject.isPrimeNumber(15)).toEqual(false);
-    expect(primeNumberObject._knownPrimes).toEqual([1, 2, 3, 5]);
+    expect(primeNumberObject._knownPrimes).toEqual([1, 2]);
+  });
+
+  it("The 'isPrimeNumber' method to calculate if a number is prime", function() {
     expect(primeNumberObject.isPrimeNumber(25)).toEqual(false);
-    expect(primeNumberObject._knownPrimes).toEqual([1, 2, 3, 5]);
+    expect(primeNumberObject._knownPrimes).toEqual([1, 2, 3]);
+  });
+
+  it("The 'isPrimeNumber' method to calculate if a number is prime", function() {
     expect(primeNumberObject.isPrimeNumber(125)).toEqual(false);
-    expect(primeNumberObject._knownPrimes).toEqual([1, 2, 3, 5]);
+    expect(primeNumberObject._knownPrimes).toEqual([1, 2, 3]);
+  });
+
+  it("The 'isPrimeNumber' method to calculate if a number is prime", function() {
     expect(primeNumberObject.isPrimeNumber(1.1)).toEqual(false);
-    expect(primeNumberObject._knownPrimes).toEqual([1, 2, 3, 5]);
+    expect(primeNumberObject._knownPrimes).toEqual([1, 2]);
+  });
+
+  it("The 'isPrimeNumber' method to calculate if a number is prime", function() {
+    expect(primeNumberObject.isPrimeNumber(503)).toEqual(true);
+    expect(primeNumberObject._knownPrimes).toEqual([ 1, 2, 3, 5, 7, 11, 13, 17, 19, 503 ]);
+  });
+
+  it("The 'isPrimeNumber' method to calculate if a number is prime", function() {
+    expect(primeNumberObject.isPrimeNumber(523)).toEqual(true);
+    expect(primeNumberObject._knownPrimes).toEqual([ 1, 2, 3, 5, 7, 11, 13, 17, 19, 523 ]);
+
+    expect(primeNumberObject.isPrimeNumber(421)).toEqual(true);
+    expect(primeNumberObject._knownPrimes).toEqual([ 1, 2, 3, 5, 7, 11, 13, 17, 19, 421, 523 ]);
+
+    expect(primeNumberObject.isPrimeNumber(29)).toEqual(true);
+    expect(primeNumberObject._knownPrimes).toEqual([ 1, 2, 3, 5, 7, 11, 13, 17, 19, 29, 421, 523 ]);
+  });
+
+  it("The 'isPrimeNumber' method to calculate if a number is prime", function() {
+    expect(primeNumberObject.isPrimeNumber(911)).toEqual(true);
+  });
+
+  it("The 'isPrimeNumber' method to calculate if a number is prime", function() {
+    var startDate = new Date();
+    for (var index=0; index<10000; index++) {
+      primeNumberObject.isPrimeNumber(index);
+    }
+
+    var endDate = new Date();
+    var stopWatch = endDate - startDate;
+    expect(stopWatch).toBeLessThan(250);
+    expect(primeNumberObject._knownPrimes.length).toBe(1230);
   });
 
 });
