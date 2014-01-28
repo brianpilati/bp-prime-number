@@ -10,6 +10,7 @@
 function PrimeNumber() {
   init: {
     this._knownPrimes = [1,2];
+    this._knownPrimesCollection = {1: true, 2: true};
     this._startingNumber = undefined;
   }
 }
@@ -22,20 +23,18 @@ PrimeNumber.prototype = {
   _calculatePrimeNumber: function(primeNumber, isPrimeNumberCheck) {
     var isPrimeNumber = true;
 
-    if (this._isPrimeNumberOneOrTwo(primeNumber)) {
+    if (this._isThePrimeNumberKnown(primeNumber)) {
       return true;
-    }
+    } 
 
     if (this._isPrimeNumberNotValid(primeNumber)) {
       return false;
     } else {
       var squareRoot = this._getSquareRoot(primeNumber);
 
+
       for (var index in this._knownPrimes) {
         var knownPrimeNumber = this._knownPrimes[index];
-        if (this._isThePrimeNumberKnown(knownPrimeNumber, primeNumber)) {
-          return true;
-        } 
         if (this._isPrimeNumberDivisible(primeNumber, knownPrimeNumber)) {
           return false;
         }
@@ -65,9 +64,14 @@ PrimeNumber.prototype = {
     return knownPrimeNumber > squareRoot || knownPrimeNumber > primeNumber;
   },
 
-  _isThePrimeNumberKnown: function(knownPrimeNumber, primeNumber) {
-    return knownPrimeNumber == primeNumber;
+  _isThePrimeNumberKnown: function(primeNumber) {
+    return this._knownPrimesCollection.hasOwnProperty(primeNumber);
   },
+
+  _isAddTheKnownPrimeNumber: function(primeNumber) {
+    return ! this._isThePrimeNumberKnown(primeNumber);
+  },
+
 
   _isTheNewNumberPrime: function() {
     if (this._useRecursionOnNewPrimeNumber()) {
@@ -76,9 +80,12 @@ PrimeNumber.prototype = {
   },
 
   _addKnownPrimeNumber: function(primeNumber) {
-    this._knownPrimes.push(primeNumber);
-    if (this._sortKnownPrimes()) {
-      this._knownPrimes = this._knownPrimes.sort(function(a,b){return a-b});
+    if (this._isAddTheKnownPrimeNumber(primeNumber)) {
+      this._knownPrimesCollection[primeNumber] = true;
+      this._knownPrimes.push(primeNumber);
+      if (this._sortKnownPrimes()) {
+        this._knownPrimes = this._knownPrimes.sort(function(a,b){return a-b});
+      }
     }
   },
 
@@ -88,10 +95,6 @@ PrimeNumber.prototype = {
 
   _isPrimeNumberNotValid: function(primeNumber) {
     return ! this._isNumber(primeNumber) || primeNumber % 2 == 0;
-  },
-
-  _isPrimeNumberOneOrTwo: function(primeNumber) {
-    return primeNumber == 1 || primeNumber == 2;
   },
 
   _incStartingNumber: function() {

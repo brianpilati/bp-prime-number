@@ -118,7 +118,7 @@ describe("PrimeNumber", function() {
 
   it("The 'isPrimeNumber' method to calculate if a number is prime", function() {
     var startDate = new Date();
-    for (var index=0; index<10000; index++) {
+    for (var index=0; index<10001; index++) {
       primeNumberObject.isPrimeNumber(index);
     }
 
@@ -128,4 +128,26 @@ describe("PrimeNumber", function() {
     expect(primeNumberObject._knownPrimes.length).toBe(1230);
   });
 
+  it("The 'isPrimeNumber' method to calculate if a number is prime", function() {
+    var startDate = new Date();
+    var counter = 0;
+
+    for(var index=0; index<5; index++) {
+      var nextPrime = 1;
+      var primeNumbers = []
+      var stoppingNumber = Math.pow(10, index);
+      while (primeNumbers.length <= stoppingNumber) {
+        if (primeNumberObject.isPrimeNumber(nextPrime) ) {
+          primeNumbers.push(nextPrime);
+        }
+        nextPrime += (nextPrime < 3 ? 1 : 2);
+        counter++;
+      }
+    }
+ 
+    var endDate = new Date();
+    var stopWatch = endDate - startDate;
+    expect(stopWatch).toBeLessThan(6000);
+    expect(primeNumberObject._knownPrimes.length).toBe(10001);
+  });
 });
