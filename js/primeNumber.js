@@ -84,17 +84,17 @@ PrimeNumber.prototype = {
       this._knownPrimesCollection[primeNumber] = true;
       this._knownPrimes.push(primeNumber);
       if (this._sortKnownPrimes()) {
-        this._knownPrimes = this._knownPrimes.sort(function(a,b){return a-b});
+        this._knownPrimes = this._knownPrimes.sort(function(a,b){return a-b;});
       }
     }
   },
 
   _isPrimeNumberDivisible: function(primeNumber, divisor) {
-    return (divisor != 1 && primeNumber % divisor == 0);
+    return (divisor != 1 && primeNumber % divisor === 0);
   },
 
   _isPrimeNumberNotValid: function(primeNumber) {
-    return ! this._isNumber(primeNumber) || primeNumber % 2 == 0;
+    return ! this._isNumber(primeNumber) || primeNumber % 2 === 0;
   },
 
   _incStartingNumber: function() {
@@ -137,4 +137,4 @@ PrimeNumber.prototype = {
   _useRecursionOnNewPrimeNumber: function() {
     return this._startingNumber != this._getLastKnownPrime();
   }
-}
+};
