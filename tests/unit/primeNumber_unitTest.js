@@ -134,7 +134,7 @@ describe("PrimeNumber", function() {
 
     for(var index=0; index<5; index++) {
       var nextPrime = 1;
-      var primeNumbers = []
+      var primeNumbers = [];
       var stoppingNumber = Math.pow(10, index);
       while (primeNumbers.length <= stoppingNumber) {
         if (primeNumberObject.isPrimeNumber(nextPrime) ) {
